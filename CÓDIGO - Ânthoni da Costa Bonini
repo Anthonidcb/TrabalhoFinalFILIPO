@@ -1,0 +1,158 @@
+import java.util.Scanner;
+import java.util.Random;
+public class TRABALHO_FINAL
+{
+    public static void main()
+    {
+        Scanner leitor = new Scanner(System.in);
+        
+        int linhas = 0, colunas = 0;
+        
+        System.out.print(" Digite o número de linhas da matriz:  ");
+        linhas = leitor.nextInt();
+        
+        while(linhas < 3)
+        {   
+            System.out.println(" O número de linhas precisa ser NO MÍNIMO 3!! ");
+            System.out.print("Digite o número de linhas da matriz: ");
+            linhas = leitor.nextInt();
+        }
+        
+        System.out.print("Digite o número de colunas da matriz: ");
+        colunas = leitor.nextInt();
+
+        while(colunas < 3)
+        {
+             System.out.println("O número de colunas precisa ser NO MÍNIMO 3!!");
+             System.out.print("Digite o número de colunas da matriz: ");
+             colunas = leitor.nextInt();
+        }
+        
+        char[][] matriz = new char[linhas][colunas];
+        PontosMatriz(matriz);
+        int[][] pontos = SortearPontos(matriz);
+        LigaPontos(matriz, pontos[0][0], pontos[0][1], pontos[1][0], pontos[1][1], '+');
+        LigaPontos(matriz, pontos[2][0], pontos[2][1], pontos[3][0], pontos[3][1], '*');
+        System.out.println("\n Matriz completa:");
+        MostraMatriz(matriz);
+        
+        leitor.close();
+    }
+    
+    public static void PontosMatriz (char[][] matriz)
+    {
+        for(int i = 0; i < matriz.length; i++)
+        {
+            for(int j = 0; j < matriz[i].length; j++)
+            {
+                matriz[i][j] = '.';
+            }
+        }
+    }
+    
+    public static void MostraMatriz(char[][] matriz)
+    {
+        for (int i = 0; i < matriz.length; i++) 
+        {
+            for (int j = 0; j < matriz[i].length; j++) 
+            {
+                System.out.print(matriz[i][j] + " ");
+            }
+            System.out.println();
+        }
+    }
+    
+    public static int[][] SortearPontos(char[][] matriz)
+    {
+        Random random = new Random();
+        
+        int linhas = matriz.length, colunas = matriz[0].length;
+        
+        int aLinha, aColuna;
+        int bLinha, bColuna;
+        int cLinha, cColuna;
+        int dLinha, dColuna;
+        
+        aLinha = random.nextInt(linhas);
+        aColuna = random.nextInt(colunas);
+        
+        bLinha = random.nextInt(linhas);
+        bColuna = random.nextInt(colunas);
+        while (bLinha == aLinha && bColuna == aColuna) 
+        {
+            bLinha = random.nextInt(linhas);
+            bColuna = random.nextInt(colunas);
+        }
+        
+        cLinha = random.nextInt(linhas);
+        cColuna = random.nextInt(colunas);
+        while (cLinha == aLinha && cColuna == aColuna || cLinha == bLinha && cColuna == bColuna) 
+        {
+            cLinha = random.nextInt(linhas);
+            cColuna = random.nextInt(colunas);
+        }
+        
+        dLinha = random.nextInt(linhas);
+        dColuna = random.nextInt(colunas);
+        while (dLinha == aLinha && dColuna == aColuna || dLinha == bLinha && dColuna == bColuna || dLinha == cLinha && dColuna == cColuna) 
+        {
+            dLinha = random.nextInt(linhas);
+            dColuna = random.nextInt(colunas);
+        }
+        
+        matriz[aLinha][aColuna] = 'A';
+        matriz[bLinha][bColuna] = 'B';
+        matriz[cLinha][cColuna] = 'C';
+        matriz[dLinha][dColuna] = 'D';
+        
+        System.out.println("\n::: PontoA: L=" + aLinha + ", C=" + aColuna);
+        System.out.println("::: PontoB: L=" + bLinha + ", C=" + bColuna);
+        System.out.println("::: PontoC: L=" + cLinha + ", C=" + cColuna);
+        System.out.println("::: PontoD: L=" + dLinha + ", C=" + dColuna);
+        
+        int[][] pontos =
+        {
+        {aLinha, aColuna}, 
+        {bLinha, bColuna},
+        {cLinha, cColuna}, 
+        {dLinha, dColuna} 
+        };
+        return pontos;
+
+    }
+    
+    public static void LigaPontos(char[][] matriz, int x1, int y1, int x2, int y2, char simbolo)
+    {
+         while (x1 != x2)
+        {
+            if (x1 < x2) 
+            {
+                x1++;
+            }
+            else 
+            {
+                x1--;
+            }
+
+            if (matriz[x1][y1] == '.')
+            {
+                matriz[x1][y1] = simbolo;
+            }
+        }
+
+    
+        while (y1 != y2) 
+        {
+        if (y1 < y2) {
+            y1++;
+        } else {
+            y1--;
+        }
+
+        if (matriz[x1][y1] == '.') {
+            matriz[x1][y1] = simbolo;
+        }
+        }
+
+    }
+}
